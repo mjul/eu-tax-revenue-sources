@@ -4,6 +4,8 @@ Collect and create infographics about EU tax revenue sources by country.
 
 ![Where EU tax revenue comes from, 2025](assets/tax_shares_2025.svg)
 
+![Tax rate and revenue per person, 2025](assets/rate_revenue_2025.svg)
+
 ## Literatur
 
 - Visual Capitalist, [Where Each U.S. State Gets Its Tax Revenue From](https://www.visualcapitalist.com/where-each-states-tax-revenue-comes-from/) (26 October 2026). Inspiration for comparing members side by side. This project follows the Eurostat classification below.
@@ -65,6 +67,7 @@ uv run ruff format # format
 ### Files and Directories
 
 - `data/` — downloaded Parquet, one file per Eurostat dataset: `gov_10a_taxag.parquet` and `nama_10_pe.parquet`. Not in git. Recreate them with the download script.
-- `assets/tax_shares_2025.svg` — chart written by the notebook, and the illustration above.
+- `assets/tax_shares_2025.svg` — stacked-bar chart written by the notebook, and the first illustration above.
+- `assets/rate_revenue_2025.svg` — rate and revenue-per-person chart written by the notebook, and the second illustration above.
 - `scripts/download_eurostat.py` — fetches the datasets listed in that script.
-- `notebooks/tax_shares.py` — loads the Parquet and draws the chart.
+- `notebooks/tax_shares.py` — loads the Parquet files and draws the charts.
