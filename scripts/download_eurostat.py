@@ -16,7 +16,8 @@ import pyarrow.csv as pa_csv
 import pyarrow.parquet as pq
 
 # One Eurostat online data code per output file in data/.
-DATASETS = ("gov_10a_taxag",)
+# nama_10_pe includes total population (POP_NC, thousands of persons).
+DATASETS = ("gov_10a_taxag", "nama_10_pe")
 
 _ACCEPT = "application/vnd.sdmx.data+csv;version=1.0.0"
 _API = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/{code}"
@@ -28,6 +29,25 @@ def repo_root() -> Path:
 
 def dataset_url(code: str) -> str:
     return f"{_API.format(code=code)}?format=SDMX-CSV&compressed=true"
+
+
+def column_types(csv_path: Path) -> dict[str, pa.DataType]:
+    """Type the SDMX-CSV header that this file actually has.
+
+    Tax aggregates include sector; population and employment do not.
+    Codes and flags stay strings so an empty confidentiality column is
+    not stored as a null type.
+    """
+    header = csv_path.open(encoding="utf-8").readline().rstrip("\r\n")
+    types: dict[str, pa.DataType] = {}
+    for name in header.split(","):
+        if name == "TIME_PERIOD":
+            types[name] = pa.int64()
+        elif name == "OBS_VALUE":
+            types[name] = pa.float64()
+        else:
+            types[name] = pa.string()
+    return types
 
 
 def download_dataset(code: str, data_dir: Path) -> Path:
@@ -53,25 +73,9 @@ def download_dataset(code: str, data_dir: Path) -> Path:
         with gzip.open(compressed_path, "rb") as source, csv_path.open("wb") as handle:
             shutil.copyfileobj(source, handle)
 
-        # Keep codes and flags as strings. An all-empty confidentiality
-        # column would otherwise be stored as a null type.
         table = pa_csv.read_csv(
             csv_path,
-            convert_options=pa_csv.ConvertOptions(
-                column_types={
-                    "DATAFLOW": pa.string(),
-                    "LAST UPDATE": pa.string(),
-                    "freq": pa.string(),
-                    "unit": pa.string(),
-                    "sector": pa.string(),
-                    "na_item": pa.string(),
-                    "geo": pa.string(),
-                    "TIME_PERIOD": pa.int64(),
-                    "OBS_VALUE": pa.float64(),
-                    "OBS_FLAG": pa.string(),
-                    "CONF_STATUS": pa.string(),
-                }
-            ),
+            convert_options=pa_csv.ConvertOptions(column_types=column_types(csv_path)),
         )
         pq.write_table(table, partial, compression="zstd")
         shutil.move(partial, destination)

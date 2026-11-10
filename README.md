@@ -12,7 +12,7 @@ Collect and create infographics about EU tax revenue sources by country.
 
 ## Data
 
-One source is used for every figure: Eurostat main national accounts tax aggregates, online data code `gov_10a_taxag`.
+Eurostat is the source. Tax revenue is main national accounts tax aggregates, online data code `gov_10a_taxag`. Population is national accounts population and employment, online data code `nama_10_pe`.
 
 | | |
 | --- | --- |
@@ -33,7 +33,20 @@ The download checked on 10 November 2026 (Europe/Copenhagen) carries `LAST UPDAT
 - `unit`: `MIO_EUR` (million euro), `MIO_NAC` (million units of national currency), `PC_GDP` (percentage of GDP), `PC_TOT` (percentage of total tax and social-contribution revenue in that sector).
 - `na_item`: 93 ESA tax and social-contribution codes. The file keeps the published codes, including the totals and the parts. Codes used for a country comparison include `D211` VAT, `D212` import duties excluding VAT, `D214` other taxes on products, `D29` other taxes on production, `D51` taxes on income, `D51A` taxes on individual or household income, `D51B` taxes on the income or profits of corporations, `D51C1` and `D51C2` holding gains of households and corporations, `D59` other current taxes, `D91` capital taxes, `D61` net social contributions, and `D995` taxes and social contributions assessed but unlikely to be collected. `D51A` and `D51B` are in the classification; countries report them on a voluntary basis, so some members have `D51` for a year and no household or corporate split.
 
-Each dataset is saved as one Parquet file under `data/`, which is gitignored: `data/gov_10a_taxag.parquet`. Column names match the SDMX-CSV header (`DATAFLOW`, `LAST UPDATE`, `freq`, `unit`, `sector`, `na_item`, `geo`, `TIME_PERIOD`, `OBS_VALUE`, `OBS_FLAG`, `CONF_STATUS`).
+### Population and employment
+
+| | |
+| --- | --- |
+| Dataset | [nama_10_pe in the Eurostat data browser](https://ec.europa.eu/eurostat/databrowser/view/nama_10_pe/default/table?lang=en) |
+| Metadata | [ESMS reference metadata](https://ec.europa.eu/eurostat/cache/metadata/en/nama_10_pe_esms.htm) |
+| DOI | [10.2908/nama_10_pe](https://doi.org/10.2908/nama_10_pe) |
+| API call the download script uses | `https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nama_10_pe?format=SDMX-CSV&compressed=true` with `Accept: application/vnd.sdmx.data+csv;version=1.0.0` |
+
+`nama_10_pe` is annual population and employment on the national-accounts basis. Total population is `na_item` `POP_NC` and `unit` `THS_PER`: thousands of persons, the annual average number of people permanently settled in the economic territory. The file also keeps employment (`EMP_NC`, `EMP_DC`, `SAL_NC`, `SAL_DC`, `SELF_NC`, `SELF_DC`) and the percentage-change unit `PCH_PRE_PER`.
+
+The download checked on 10 November 2026 (Europe/Copenhagen) carries `LAST UPDATE` = `21/10/26 23:00:00` on every row (the stamp stored in the Eurostat file). That extract has 16,934 annual observations for 1975–2025. For 2025, all 27 members have a `POP_NC` / `THS_PER` value. Germany is 83,513 thousand. Twelve of those 27 figures are flagged provisional (`OBS_FLAG` = `p`): Belgium, Croatia, Cyprus, France, Germany, Greece, Hungary, Italy, Luxembourg, the Netherlands, Portugal, and Spain.
+
+Each dataset is saved as one Parquet file under `data/`, which is gitignored: `data/gov_10a_taxag.parquet` and `data/nama_10_pe.parquet`. Column names match that file's SDMX-CSV header. The tax file's columns are `DATAFLOW`, `LAST UPDATE`, `freq`, `unit`, `sector`, `na_item`, `geo`, `TIME_PERIOD`, `OBS_VALUE`, `OBS_FLAG`, and `CONF_STATUS`. The population file has that set without `sector`. Codes and flags are strings, the year is an integer, and the value is a double.
 
 ## Quickstart
 
@@ -51,7 +64,7 @@ uv run ruff format # format
 
 ### Files and Directories
 
-- `data/` — downloaded Parquet, one file per Eurostat dataset. Not in git. Recreate it with the download script.
+- `data/` — downloaded Parquet, one file per Eurostat dataset: `gov_10a_taxag.parquet` and `nama_10_pe.parquet`. Not in git. Recreate them with the download script.
 - `assets/tax_shares_2025.svg` — chart written by the notebook, and the illustration above.
 - `scripts/download_eurostat.py` — fetches the datasets listed in that script.
 - `notebooks/tax_shares.py` — loads the Parquet and draws the chart.
