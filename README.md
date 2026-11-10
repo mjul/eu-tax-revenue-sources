@@ -6,7 +6,7 @@ Inspired by this one for the USA, [Where Each U.S. State Gets Its Tax Revenue Fr
 
 ## Quickstart
 
-```text
+```bash
 uv run ... # run this to download the data to the data/ directory
 uv run marimo ...# run the Marimo notebook to explore and display the data
 uv run ruff check --fix # lint
