@@ -1,0 +1,6 @@
+#!/bin/sh
+# Git runs this file, including Git for Windows when you commit from PowerShell.
+# The hook logic lives in pre_commit.py so it does not depend on bash.
+set -eu
+cd "$(dirname "$0")/.."
+exec uv run python .githooks/pre_commit.py
