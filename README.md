@@ -4,12 +4,6 @@ Collect and create infographics about EU tax revenue sources by country.
 
 ![Where EU tax revenue comes from, 2025](assets/tax_shares_2025.svg)
 
-## Literatur
-
-- Visual Capitalist, [Where Each U.S. State Gets Its Tax Revenue From](https://www.visualcapitalist.com/where-each-states-tax-revenue-comes-from/) (26 October 2026). Inspiration for comparing members side by side. This project follows the Eurostat classification below.
-- Tax Foundation, [Sources of Government Revenue in the OECD, 2025](https://taxfoundation.org/data/all/global/oecd-tax-revenue-by-country/) (Cristina Enache, 22 May 2025).
-- Tax Foundation code and output tables for that publication: [TaxFoundation/sources-of-government-revenue](https://github.com/TaxFoundation/sources-of-government-revenue/).
-
 ## Data
 
 Eurostat is the source. Tax revenue is main national accounts tax aggregates, online data code `gov_10a_taxag`. Population is national accounts population and employment, online data code `nama_10_pe`.
@@ -68,3 +62,10 @@ uv run ruff format # format
 - `assets/tax_shares_2025.svg` — chart written by the notebook, and the illustration above.
 - `scripts/download_eurostat.py` — fetches the datasets listed in that script.
 - `notebooks/tax_shares.py` — loads the Parquet and draws the chart.
+
+## Literature
+See related projects for inspiration:
+
+- Visual Capitalist, [Where Each U.S. State Gets Its Tax Revenue From](https://www.visualcapitalist.com/where-each-states-tax-revenue-comes-from/) (26 October 2026). Inspiration for comparing members side by side. This project follows the Eurostat classification below.
+- Tax Foundation, [Sources of Government Revenue in the OECD, 2025](https://taxfoundation.org/data/all/global/oecd-tax-revenue-by-country/) (Cristina Enache, 22 May 2025).
+- Tax Foundation code and output tables for that publication: [TaxFoundation/sources-of-government-revenue](https://github.com/TaxFoundation/sources-of-government-revenue/).
