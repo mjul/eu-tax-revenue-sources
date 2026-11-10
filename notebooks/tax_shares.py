@@ -13,7 +13,7 @@ def _():
 
     data_path = Path(__file__).resolve().parents[1] / "data" / "gov_10a_taxag.parquet"
     taxes = pl.read_parquet(data_path)
-    return alt, pl, taxes
+    return Path, alt, pl, taxes
 
 
 @app.cell
@@ -122,7 +122,7 @@ def _(pl, taxes):
 
 
 @app.cell
-def _(alt, shares, source_names):
+def _(Path, alt, shares, source_names):
     chart = (
         alt.Chart(shares)
         .mark_bar()
@@ -164,6 +164,11 @@ def _(alt, shares, source_names):
             height=27 * 24,
         )
     )
+    # The notebook chart stretches with the page. The README illustration
+    # needs a fixed width, so the saved copy does not use "container".
+    asset_dir = Path(__file__).resolve().parents[1] / "assets"
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    chart.properties(width=760).save(asset_dir / "tax_shares_2025.svg")
     chart
     return
 
