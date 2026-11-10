@@ -37,7 +37,7 @@ Each dataset is saved as one Parquet file under `data/`, which is gitignored: `d
 
 ```bash
 uv run python scripts/download_eurostat.py # download Eurostat datasets into data/
-uv run marimo ...# run the Marimo notebook to explore and display the data
+uv run marimo edit notebooks/tax_shares.py # explore the 2025 tax-share chart
 uv run ruff check --fix # lint
 uv run ruff format # format
 ```
