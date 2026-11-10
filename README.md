@@ -4,6 +4,10 @@ Collect and create infographics about EU tax revenue sources by country.
 
 ![Where EU tax revenue comes from, 2025](assets/tax_shares_2025.svg)
 
+![Revenue as percent of GDP, 2025](assets/tax_radar_gdp_2025.svg)
+
+![Revenue in euro per person, 2025](assets/tax_radar_per_capita_2025.svg)
+
 ## Data
 
 Eurostat is the source. Tax revenue is main national accounts tax aggregates, online data code `gov_10a_taxag`. Population is national accounts population and employment, online data code `nama_10_pe`.
@@ -46,7 +50,7 @@ Each dataset is saved as one Parquet file under `data/`, which is gitignored: `d
 
 ```bash
 uv run python scripts/download_eurostat.py # download Eurostat datasets into data/
-uv run marimo edit notebooks/tax_shares.py # explore the 2025 tax-share chart
+uv run marimo edit notebooks/tax_shares.py # explore the 2025 charts
 uv run ruff check --fix # lint
 uv run ruff format # format
 ```
@@ -59,9 +63,11 @@ uv run ruff format # format
 ### Files and Directories
 
 - `data/` — downloaded Parquet, one file per Eurostat dataset: `gov_10a_taxag.parquet` and `nama_10_pe.parquet`. Not in git. Recreate them with the download script.
-- `assets/tax_shares_2025.svg` — chart written by the notebook, and the illustration above.
+- `assets/tax_shares_2025.svg` — stacked-bar chart written by the notebook, and the first illustration above.
+- `assets/tax_radar_gdp_2025.svg` — radar of 2025 revenue as a percent of GDP, one spoke per tax category.
+- `assets/tax_radar_per_capita_2025.svg` — the same radar in euro per person.
 - `scripts/download_eurostat.py` — fetches the datasets listed in that script.
-- `notebooks/tax_shares.py` — loads the Parquet and draws the chart.
+- `notebooks/tax_shares.py` — loads the Parquet files and draws the charts.
 
 ## Literature
 See related projects for inspiration:
