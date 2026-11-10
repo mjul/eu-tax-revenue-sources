@@ -1,0 +1,6 @@
+[project]
+name = "eu-tax-revenue-sources"
+version = "0.1.0"
+description = "EU tax revenue sources by country"
+requires-python = ">=3.15"
+dependencies = []
