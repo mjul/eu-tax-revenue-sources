@@ -2,7 +2,9 @@
 
 Collect and create infographics about EU tax revenue sources by country.
 
-Inspired by this one for the USA, [Where Each U.S. State Gets Its Tax Revenue From](https://www.visualcapitalist.com/where-each-states-tax-revenue-comes-from/)
+Inspired by this these
+- USA, [Where Each U.S. State Gets Its Tax Revenue From](https://www.visualcapitalist.com/where-each-states-tax-revenue-comes-from/)
+- Tax Foundation, [Sources of Government Revenue in the OECD, 2025](https://taxfoundation.org/data/all/global/oecd-tax-revenue-by-country/)
 
 ## Quickstart
 
